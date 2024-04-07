@@ -1,0 +1,27 @@
+diff '--color=auto' -uNr wine-8.21/dlls/ntdll/unix/server.c wine-8.21-patched/dlls/ntdll/unix/server.c
+--- wine-8.21/dlls/ntdll/unix/server.c	2024-04-07 03:17:29.370724894 +0000
++++ wine-8.21-patched/dlls/ntdll/unix/server.c	2024-04-07 00:18:34.000000000 +0000
+@@ -1260,7 +1260,7 @@
+ #ifdef __ANDROID__  /* there's no /tmp dir on Android */
+     asprintf( &dir, "%s/.wineserver/server-%s", config_dir, tmp );
+ #else
+-    asprintf( &dir, "/tmp/.wine-%u/server-%s", getuid(), tmp );
++    asprintf( &dir, "/data/data/com.termux/files/usr/tmp/.wine-%u/server-%s", getuid(), tmp );
+ #endif
+     return dir;
+ }
+diff '--color=auto' -uNr wine-8.21/server/request.c wine-8.21-patched/server/request.c
+--- wine-8.21/server/request.c	2024-04-07 03:17:32.694739831 +0000
++++ wine-8.21-patched/server/request.c	2024-04-07 00:20:08.000000000 +0000
+@@ -663,9 +663,9 @@
+     strcpy( server_dir, config_dir );
+     strcat( server_dir, "/.wineserver" );
+ #else
+-    len += sizeof("/tmp/.wine-") + 12;
++    len += sizeof("/data/data/com.termux/files/usr/tmp/.wine-") + 12;
+     if (!(server_dir = malloc( len ))) fatal_error( "out of memory\n" );
+-    sprintf( server_dir, "/tmp/.wine-%u", getuid() );
++    sprintf( server_dir, "/data/data/com.termux/files/usr/tmp/.wine-%u", getuid() );
+ #endif
+     create_dir( server_dir, &st2 );
+ 
