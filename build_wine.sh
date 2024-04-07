@@ -252,10 +252,7 @@ else
 
 		tar xf "wine-${WINE_VERSION}.tar.xz"
 		mv "wine-${WINE_VERSION}" wine
-                if [ "${PROTON_BRANCH}" = "experimental_8.0" ]; then
-			patch -d wine -Np1 < "${scriptdir}"/Android.patch
-		fi
-
+                patch -d wine -Np1 < "${scriptdir}"/Android.patch
 	fi
 
 	if [ "${WINE_BRANCH}" = "staging" ]; then
