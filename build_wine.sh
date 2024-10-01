@@ -302,6 +302,7 @@ if [ ! -d wine ]; then
 fi
 
 cd wine || exit 1
+patch -p1 < "${scriptdir}"/0001-fix-paths.patch
 dlls/winevulkan/make_vulkan
 tools/make_requests
 tools/make_specfiles
