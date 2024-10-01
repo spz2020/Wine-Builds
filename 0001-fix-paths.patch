@@ -17,7 +17,7 @@ diff -uNr a/dlls/dbghelp/macho_module.c b/dlls/dbghelp/macho_module.c
          const WCHAR* fallback = process_getenv(pcs, L"DYLD_FALLBACK_LIBRARY_PATH");
          if (!fallback)
 -            fallback = L"/usr/local/lib:/lib:/usr/lib";
-+            fallback = L"/data/data/com.termux/files/glibc/lib/:/data/data/com.termux/files/lib/:/usr/local/lib:/lib:/usr/lib";
++            fallback = L"/data/data/com.termux/files/usr/glibc/lib/:/data/data/com.termux/files/usr/lib/:/usr/local/lib:/lib:/usr/lib";
          ret = search_unix_path(p, fallback, macho_load_file_cb, &load_params);
      }
      if (!ret && p == filename)
@@ -29,7 +29,7 @@ diff -uNr a/dlls/dbghelp/module.c b/dlls/dbghelp/module.c
      if (!fmap_link) return NULL;
  
 -    p = malloc(sizeof(L"/usr/lib/debug/.build-id/") +
-+    p = malloc(sizeof(L"/data/data/com.termux/files/glibc/lib/debug/.build-id/") +
++    p = malloc(sizeof(L"/data/data/com.termux/files/usr/glibc/lib/debug/.build-id/") +
                 (idlen * 2 + 1) * sizeof(WCHAR) + sizeof(L".debug"));
      if (!p) goto fail;
 -    wcscpy(p, L"/usr/lib/debug/.build-id/");
@@ -42,7 +42,7 @@ diff -uNr a/dlls/dbghelp/module.c b/dlls/dbghelp/module.c
                  {
                      dst = HeapAlloc(GetProcessHeap(), 0,
 -                                    sizeof(L"/usr/lib/debug/.build-id/") + (3 + filename_len + idlen * 2) * sizeof(WCHAR));
-+                                    sizeof(L"/data/data/com.termux/files/glibc/lib/debug/.build-id/") + (3 + filename_len + idlen * 2) * sizeof(WCHAR));
++                                    sizeof(L"/data/data/com.termux/files/usr/glibc/lib/debug/.build-id/") + (3 + filename_len + idlen * 2) * sizeof(WCHAR));
                      if (dst)
                      {
                          WCHAR* p;
@@ -51,7 +51,7 @@ diff -uNr a/dlls/dbghelp/module.c b/dlls/dbghelp/module.c
                           * so try both
                           */
 -                        p = memcpy(dst, L"/usr/lib/debug/.build-id/", sizeof(L"/usr/lib/debug/.build-id/"));
-+                        p = memcpy(dst, L"/data/data/com.termux/files/glibc/lib/debug/.build-id/", sizeof(L"@TERMUX_PREFIX@/lib/debug/.build-id/"));
++                        p = memcpy(dst, L"/data/data/com.termux/files/usr/glibc/lib/debug/.build-id/", sizeof(L"@TERMUX_PREFIX@/lib/debug/.build-id/"));
                          p += wcslen(dst);
                          MultiByteToWideChar(CP_UNIXCP, 0, data, -1, p, filename_len);
                          ret = image_check_debug_link_gnu_id(dst, fmap_link, id, idlen);
@@ -64,7 +64,7 @@ diff -uNr a/dlls/msvcrt/tests/environ.c b/dlls/msvcrt/tests/environ.c
   "/usr/lib/mingw32/3.4.2/;"
 - "/usr/lib/";
 + "/usr/lib/;"
-+ "/data/data/com.termux/files/glibc/lib/";
++ "/data/data/com.termux/files/usr/glibc/lib/";
  
  static char ***(__cdecl *p__p__environ)(void);
  static WCHAR ***(__cdecl *p__p__wenviron)(void);
@@ -91,7 +91,7 @@ diff -uNr a/programs/winebrowser/main.c b/programs/winebrowser/main.c
  {
      static const WCHAR defaultbrowsers[] =
          L"xdg-open\0"
-+        "/data/data/com.termux/files//bin/open\0"
++        "/data/data/com.termux/files/usr/bin/open\0"
          "/usr/bin/open\0"
          "firefox\0"
          "konqueror\0"
@@ -100,7 +100,7 @@ diff -uNr a/programs/winebrowser/main.c b/programs/winebrowser/main.c
  {
      static const WCHAR defaultmailers[] =
 -        L"/usr/bin/open\0"
-+        L"/data/data/com.termux/files/glibc/bin/open"
++        L"/data/data/com.termux/files/usr/bin/open"
 +        "/usr/bin/open\0"
          "xdg-email\0"
          "mozilla-thunderbird\0"
@@ -113,7 +113,7 @@ diff -uNr a/programs/winemenubuilder/winemenubuilder.c b/programs/winemenubuilde
          dirs = xwcsdup( _wgetenv( L"XDG_DATA_DIRS" ));
      else
 -        dirs = xwcsdup( L"/usr/local/share/:/usr/share/" );
-+        dirs = xwcsdup( L"/data/data/com.termux/files/share:/usr/local/share/:/usr/share/" );
++        dirs = xwcsdup( L"/data/data/com.termux/files/usr/share:/usr/local/share/:/usr/share/" );
  
      ret = add_mimes(xdg_data_dir, mime_types);
      if (ret)
@@ -130,7 +130,7 @@ diff -uNr a/server/request.c b/server/request.c
          fatal_error( "out of memory\n" );
  #else
 -    if (asprintf( &base_dir, "/tmp/.wine-%u", getuid() ) == -1)
-+    if (asprintf( &base_dir, "/data/data/com.termux/files/tmp/.wine-%u", getuid() ) == -1)
++    if (asprintf( &base_dir, "/data/data/com.termux/files/usr/tmp/.wine-%u", getuid() ) == -1)
          fatal_error( "out of memory\n" );
  #endif
      create_dir( server_dir, &st2 );
