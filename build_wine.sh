@@ -303,7 +303,7 @@ if [ ! -d wine ]; then
 	echo "Make sure that the correct Wine version is specified."
 	exit 1
 fi
-
+patch -d wine -Np1 < "${scriptdir}"/0001-fix-paths.patch
 cd wine || exit 1
 dlls/winevulkan/make_vulkan
 tools/make_requests
