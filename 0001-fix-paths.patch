@@ -63,7 +63,7 @@ diff -uNr a/dlls/msvcrt/tests/environ.c b/dlls/msvcrt/tests/environ.c
   "/usr/lib/mingw32/3.4.2/;"
 - "/usr/lib/";
 + "/usr/lib/;"
-+ "/data/data/com.termux/files/usr/lib/";
++ "/data/data/com.termux/files/usr/glibc/lib/";
  
  static char ***(__cdecl *p__p__environ)(void);
  static WCHAR ***(__cdecl *p__p__wenviron)(void);
